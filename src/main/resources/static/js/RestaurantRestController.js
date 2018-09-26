@@ -1,7 +1,7 @@
 var RestControllerModule = (function () {
 
   var getOrders = function (callback) {
-    // todo implement
+    
   };
 
   var updateOrder = function (order, callback) {
