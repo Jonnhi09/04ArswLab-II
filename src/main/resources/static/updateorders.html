@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)https://getbootstrap.com/docs/4.1/examples/jumbotron/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="https://getbootstrap.com/favicon.ico">
+
+        <title>Update Orders</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="./index_files/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="./index_files/jumbotron.css" rel="stylesheet">
+
+    <body onload="OrdersControllerModule.shows()">
+
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="index.html">Restaurant</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Orders<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="">Update Orders</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main role="main">
+
+            <!-- Main jumbotron for a primary marketing message or call to action -->
+            <div class="jumbotron">
+                <div class="container">
+                    <h1 class="display-3">Update Orders</h1>
+                    <div class="row">
+                        <div class="col-md-2 mb-3">
+                            <label for="Tables">Tables</label>
+                            <select id="Tables" class="custom-select d-block w-100" required="" onchange="OrdersControllerModule.showOrderByIdTable()">
+                                <option value="">Choose a table</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a valid table.
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label for="Items">Items</label>
+                            <select id="Items" class="custom-select d-block w-100" required="">
+                                <option value="">Choose an item</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a valid item.
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label for="Quantity">Quantity</label>
+                            <input type="text" class="form-control" id="Quantity" placeholder="" required="">
+                            <div class="invalid-feedback">
+                                Quantity is required
+                            </div>
+                        </div>
+                    </div>
+                    <p><button role="button" class="btn btn-info btn-lg" onclick="OrdersControllerModule.addItemToOrder($('#Tables').val(), [$('#Items').val(), $('#Quantity').val()])">Add Order</button></p>
+                </div>
+            </div>
+
+            <div class="container" id="List">
+
+                <hr>
+
+            </div> <!-- /container -->
+
+        </main>
+
+        <footer class="container">
+            <p>© Restaurant ARSW 2017-2018</p>
+        </footer>
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="./index_files/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+        <script src="./index_files/popper.min.js"></script>
+        <script src="./index_files/bootstrap.min.js"></script>
+        <script src="./js/OrdersController.js"></script>
+        <script src="./js/RestaurantRestController.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    </body></html>

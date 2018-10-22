@@ -87,6 +87,12 @@ public class OrdersAPIController {
         }
     }
 
+    @GetMapping("/products")
+    public ResponseEntity<?> manejadorGetRecursoProducts() {
+        Set<String> set = ros.getAvailableProductNames();
+        return new ResponseEntity<>(set, HttpStatus.ACCEPTED);
+    }
+
     /**
      * Parte II - Primer punto.
      *
@@ -94,19 +100,14 @@ public class OrdersAPIController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> manejadorPostRecursoOrder(@RequestBody String o) {
+    public ResponseEntity<?> manejadorPostRecursoOrder(@RequestBody Order order) {
         try {
             //registrar dato
-            ObjectMapper objectMap = new ObjectMapper();
-            Order order = objectMap.readValue(o, Order.class);
             ros.addNewOrderToTable(order);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (OrderServicesException ex) {
             Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("Error al adicionar una nueva orden", HttpStatus.FORBIDDEN);
-        } catch (IOException ex) {
-            Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("Error al abrir", HttpStatus.FORBIDDEN);
         }
     }
 
@@ -154,8 +155,33 @@ public class OrdersAPIController {
         }
     }
 
-    //Posible implementacion.
-    @DeleteMapping("/{tableId}")
+    /**
+     * Parte IV - Primer punto.
+     *
+     * @param tableId
+     * @param nameItem
+     * @param quantity
+     * @return
+     */
+    @PutMapping("/{tableId}/{nameItem}")
+    public ResponseEntity<?> manejadorPutUpdateProduct(@ModelAttribute("tableId") int tableId, @PathVariable String nameItem, @RequestBody int quantity) {
+        try {
+            //registrar dato
+            ros.updateTableOrder(tableId, nameItem.toUpperCase(), quantity);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (OrderServicesException ex) {
+            Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("La mesa " + tableId + " o item " + nameItem + " no existen.", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * Parte IV - Segundo punto. Posible implementacion.
+     *
+     * @param tableId
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{tableId}")
     public ResponseEntity<?> manejadorDeleteReleaseTable(@PathVariable int tableId) {
         try {
             ros.releaseTable(tableId);
@@ -165,13 +191,13 @@ public class OrdersAPIController {
             return new ResponseEntity<>("La mesa: " + tableId + " ya fue liberada.", HttpStatus.NOT_FOUND);
         }
     }
-    
-    /**
-     * Parte IV - Segundo punto.
-     *
-     * @param tableId
-     * @return
-     */
+
+//    /**
+//     * Parte IV - Segundo punto.
+//     *
+//     * @param tableId
+//     * @return
+//     */
 //    @RequestMapping(method = RequestMethod.DELETE)
 //    public ResponseEntity<?> manejadorDeleteReleaseTable(@RequestBody int tableId) {
 //        try {
@@ -182,4 +208,14 @@ public class OrdersAPIController {
 //            return new ResponseEntity<>("La mesa: " + tableId + " ya fue liberada.", HttpStatus.NOT_FOUND);
 //        }
 //    }
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{tableId}/{nameItem}")
+    public ResponseEntity<?> manejadorDeleteTableItem(@PathVariable int tableId, @PathVariable String nameItem) {
+        try {
+            ros.releaseItem(tableId, nameItem.toUpperCase());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (OrderServicesException ex) {
+            Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("La mesa: " + tableId + " o el item: " + nameItem + " no existen", HttpStatus.NOT_FOUND);
+        }
+    }
 }
