@@ -1,7 +1,7 @@
 # JavaScript Modular Client
 
 # Link Heroku App
-- [Link Heroku](https://cryptic-tundra-17739.herokuapp.com)
+- [Link Heroku - No disponible, correr localmente]()
 
 # Part 1: Refactoring
 
